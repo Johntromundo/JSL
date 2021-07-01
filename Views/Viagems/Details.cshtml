@@ -1,0 +1,66 @@
+﻿@model JSLProject.Models.Viagem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Viagem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dataHora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dataHora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.distancia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.distancia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pesoCarga)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pesoCarga)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motorista.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Motorista.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco.logradouro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Endereco.logradouro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco1.logradouro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Endereco1.logradouro)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_viagem }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

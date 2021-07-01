@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JSLProject.Models.Veiculo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.modelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.eixos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Motorista.Nome)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.modelo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.marca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.eixos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Motorista.Nome)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.placa }) |
+            @Html.ActionLink("Details", "Details", new { id=item.placa }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.placa })
+        </td>
+    </tr>
+}
+
+</table>

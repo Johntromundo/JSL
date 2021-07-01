@@ -1,0 +1,66 @@
+﻿@model JSLProject.Models.Endereco
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Endereco</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.logradouro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.logradouro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bairro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bairro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uf)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.complemento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.complemento)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_end }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
