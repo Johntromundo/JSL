@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BDJSLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Endereco">
+    <Key>
+      <PropertyRef Name="id_end" />
+    </Key>
+    <Property Name="id_end" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="logradouro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="bairro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="uf" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cep" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="complemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Motorista" Relationship="Self.FK_Motorista_Endereco" FromRole="Endereco" ToRole="Motorista" />
+    <NavigationProperty Name="Viagem" Relationship="BDJSLModel.FK_Viagem_Endereco" FromRole="Endereco" ToRole="Viagem" />
+    <NavigationProperty Name="Viagem1" Relationship="BDJSLModel.FK_Viagem_Endereco1" FromRole="Endereco" ToRole="Viagem" />
+  </EntityType>
+  <EntityType Name="Motorista">
+    <Key>
+      <PropertyRef Name="id_motorista" />
+    </Key>
+    <Property Name="id_motorista" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Sobrenome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="id_end" Type="Int32" />
+    <NavigationProperty Name="Endereco" Relationship="Self.FK_Motorista_Endereco" FromRole="Motorista" ToRole="Endereco" />
+    <NavigationProperty Name="Veiculo" Relationship="Self.FK_Veiculo_Motorista" FromRole="Motorista" ToRole="Veiculo" />
+    <NavigationProperty Name="Viagem" Relationship="Self.FK_Viagem_Motorista" FromRole="Motorista" ToRole="Viagem" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Veiculo">
+    <Key>
+      <PropertyRef Name="placa" />
+    </Key>
+    <Property Name="placa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="eixos" Type="Int32" />
+    <Property Name="id_motorista" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Motorista" Relationship="Self.FK_Veiculo_Motorista" FromRole="Veiculo" ToRole="Motorista" />
+  </EntityType>
+  <EntityType Name="Viagem">
+    <Key>
+      <PropertyRef Name="id_viagem" />
+    </Key>
+    <Property Name="id_viagem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dataHora" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="localEntrega" Type="Int32" Nullable="false" />
+    <Property Name="localSaida" Type="Int32" Nullable="false" />
+    <Property Name="distancia" Type="Int32" Nullable="false" />
+    <Property Name="pesoCarga" Type="Int32" />
+    <Property Name="id_motorista" Type="Int32" />
+    <NavigationProperty Name="Motorista" Relationship="Self.FK_Viagem_Motorista" FromRole="Viagem" ToRole="Motorista" />
+    <NavigationProperty Name="Endereco" Relationship="BDJSLModel.FK_Viagem_Endereco" FromRole="Viagem" ToRole="Endereco" />
+    <NavigationProperty Name="Endereco1" Relationship="BDJSLModel.FK_Viagem_Endereco1" FromRole="Viagem" ToRole="Endereco" />
+  </EntityType>
+  <Association Name="FK_Motorista_Endereco">
+    <End Role="Endereco" Type="Self.Endereco" Multiplicity="0..1" />
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Motorista">
+        <PropertyRef Name="id_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Veiculo_Motorista">
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="1" />
+    <End Role="Veiculo" Type="Self.Veiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Motorista">
+        <PropertyRef Name="id_motorista" />
+      </Principal>
+      <Dependent Role="Veiculo">
+        <PropertyRef Name="id_motorista" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Viagem_Motorista">
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="0..1" />
+    <End Role="Viagem" Type="Self.Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Motorista">
+        <PropertyRef Name="id_motorista" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="id_motorista" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BDJSLEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Endereco" EntityType="Self.Endereco" />
+    <EntitySet Name="Motorista" EntityType="Self.Motorista" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Veiculo" EntityType="Self.Veiculo" />
+    <EntitySet Name="Viagem" EntityType="Self.Viagem" />
+    <AssociationSet Name="FK_Motorista_Endereco" Association="Self.FK_Motorista_Endereco">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Motorista" EntitySet="Motorista" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Veiculo_Motorista" Association="Self.FK_Veiculo_Motorista">
+      <End Role="Motorista" EntitySet="Motorista" />
+      <End Role="Veiculo" EntitySet="Veiculo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Motorista" Association="Self.FK_Viagem_Motorista">
+      <End Role="Motorista" EntitySet="Motorista" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Endereco" Association="BDJSLModel.FK_Viagem_Endereco">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Endereco1" Association="BDJSLModel.FK_Viagem_Endereco1">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Viagem_Endereco">
+    <End Type="BDJSLModel.Endereco" Role="Endereco" Multiplicity="1" />
+    <End Type="BDJSLModel.Viagem" Role="Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="localEntrega" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Viagem_Endereco1">
+    <End Type="BDJSLModel.Endereco" Role="Endereco" Multiplicity="1" />
+    <End Type="BDJSLModel.Viagem" Role="Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="localSaida" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

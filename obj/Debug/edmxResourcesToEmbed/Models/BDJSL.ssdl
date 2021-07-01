@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BDJSLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Endereco">
+    <Key>
+      <PropertyRef Name="id_end" />
+    </Key>
+    <Property Name="id_end" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="logradouro" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="bairro" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="uf" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="cep" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="cidade" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="complemento" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Motorista">
+    <Key>
+      <PropertyRef Name="id_motorista" />
+    </Key>
+    <Property Name="id_motorista" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sobrenome" Type="varchar" MaxLength="50" />
+    <Property Name="id_end" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Veiculo">
+    <Key>
+      <PropertyRef Name="placa" />
+    </Key>
+    <Property Name="placa" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="modelo" Type="varchar" MaxLength="50" />
+    <Property Name="marca" Type="varchar" MaxLength="50" />
+    <Property Name="eixos" Type="int" />
+    <Property Name="id_motorista" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Viagem">
+    <Key>
+      <PropertyRef Name="id_viagem" />
+    </Key>
+    <Property Name="id_viagem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dataHora" Type="datetime" Nullable="false" />
+    <Property Name="localEntrega" Type="int" Nullable="false" />
+    <Property Name="localSaida" Type="int" Nullable="false" />
+    <Property Name="distancia" Type="int" Nullable="false" />
+    <Property Name="pesoCarga" Type="int" />
+    <Property Name="id_motorista" Type="int" />
+  </EntityType>
+  <Association Name="FK_Motorista_Endereco">
+    <End Role="Endereco" Type="Self.Endereco" Multiplicity="0..1" />
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Motorista">
+        <PropertyRef Name="id_end" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Veiculo_Motorista">
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="1" />
+    <End Role="Veiculo" Type="Self.Veiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Motorista">
+        <PropertyRef Name="id_motorista" />
+      </Principal>
+      <Dependent Role="Veiculo">
+        <PropertyRef Name="id_motorista" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Viagem_Endereco">
+    <End Role="Endereco" Type="Self.Endereco" Multiplicity="1" />
+    <End Role="Viagem" Type="Self.Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="localEntrega" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Viagem_Endereco1">
+    <End Role="Endereco" Type="Self.Endereco" Multiplicity="1" />
+    <End Role="Viagem" Type="Self.Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Endereco">
+        <PropertyRef Name="id_end" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="localSaida" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Viagem_Motorista">
+    <End Role="Motorista" Type="Self.Motorista" Multiplicity="0..1" />
+    <End Role="Viagem" Type="Self.Viagem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Motorista">
+        <PropertyRef Name="id_motorista" />
+      </Principal>
+      <Dependent Role="Viagem">
+        <PropertyRef Name="id_motorista" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BDJSLModelStoreContainer">
+    <EntitySet Name="Endereco" EntityType="Self.Endereco" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Motorista" EntityType="Self.Motorista" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Veiculo" EntityType="Self.Veiculo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Viagem" EntityType="Self.Viagem" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Motorista_Endereco" Association="Self.FK_Motorista_Endereco">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Motorista" EntitySet="Motorista" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Veiculo_Motorista" Association="Self.FK_Veiculo_Motorista">
+      <End Role="Motorista" EntitySet="Motorista" />
+      <End Role="Veiculo" EntitySet="Veiculo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Endereco" Association="Self.FK_Viagem_Endereco">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Endereco1" Association="Self.FK_Viagem_Endereco1">
+      <End Role="Endereco" EntitySet="Endereco" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Viagem_Motorista" Association="Self.FK_Viagem_Motorista">
+      <End Role="Motorista" EntitySet="Motorista" />
+      <End Role="Viagem" EntitySet="Viagem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
